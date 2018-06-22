@@ -1,0 +1,16 @@
+<div class="modal">
+  <div class="container">
+      {{#each content}}
+      <p>{{title}}</p>
+      {{/each}}
+      <p class="close">close</p>
+      <h2>Create new note</h2>
+      <form>
+        <label for="title">Title</label>
+        <input type=text id="title"></form>
+        <label for="title">Description</label>
+        <textarea rows="10" id="description"></textarea>
+      </form>
+      <button class="save">save</button>
+  </div>
+</div>

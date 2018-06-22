@@ -1,0 +1,22 @@
+<section class="notes-list">
+
+{{#each notes}}
+    <div class="list-item" data-id="{{_id}}" data-done="{{done}}">
+        <div class="item-a">
+            <span class="indicator"></span>
+        </div>
+        <div class="item-b">
+            <h3>{{title}}</h3>
+            <p class="note-content">{{description}}</p>
+        </div>
+        <div class="item-c">
+            <div class="done-button">
+                <span class="edit"><label for=""><a href="/edit/{{_id}}">edit</a></label></span>
+                <input type="checkbox" id="done-input-{{@index}}" class="done-input">
+                <span><label for="done-input-{{@index}}">done</label></span>
+            </div>
+        </div>        
+    </div>
+{{/each}}
+
+</section>

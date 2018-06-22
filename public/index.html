@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,900" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  </head>
+  <body>
+    <header>
+        <a href="/"><h1 class="title">Daily Notes</h1></a>
+        <a class="create" href="/note.html"><span class="button"><label>create</label></span></a>
+    </header>
+
+    <main class="main">
+        <div class="filters">
+            <span>Order By:</span>
+            <input type="radio" name="filter" id="created" value="created" checked>
+            <label for="created">Created</label>
+            <input type="radio" name="filter" id="date" value="date">
+            <label for="date">Date</label>
+            <input type="radio" name="filter" id="rating" value="rating">
+            <label for="rating">Importance</label>
+        </div>
+    
+        <section class="notes-list">
+
+        </section>
+    
+        <p class="style-switcher">
+            <span class="choice active">dark</span><span>|</span><span class="choice">light</span>
+        </p>
+    </main>
+
+    <script id="note-list-template" type="text/x-handlebars-template">
+        {{#each notes}}
+        <div class="list-item" data-id="{{_id}}" data-done="{{done}}">
+            <div class="item-a">
+                <span class="indicator" data-rating="{{rating}}"></span>
+            </div>
+            <div class="item-b">
+                <h3>{{title}}</h3>
+                <p class="note-content">{{description}}</p>
+            </div>
+            <div class="item-c">
+                <div class="done-button">
+                    <span class="edit"><label for=""><a href="/note.html#{{_id}}">edit</a></label></span>
+                    <input type="checkbox" id="done-input-{{@index}}" class="done-input">
+                    <span><label for="done-input-{{@index}}">done</label></span>
+                </div>
+            </div>        
+        </div>
+        {{/each}}
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/javascripts/utils/handlebars.js"></script>
+    
+    <script type="module" src="/javascripts/services/rest-client.js"></script>  
+    <script type="module" src="/javascripts/model.js"></script>  
+    <script type="module" src="/javascripts/controllers/index-controller.js"></script>  
+  </body>
+</html>

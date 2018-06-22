@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{title}}</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,900" rel="stylesheet">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  </head>
+  <body>
+    <header>
+        <a href="/"><h1 class="title">Daily Notes</h1></a>
+        <a class="back" href="/"><span class="button"><label>back</label></span></a>
+    </header>
+    <div class="note-editor">
+        
+    </div>
+    <script id="note-single-template" type="text/x-handlebars-template">
+        <div class="container">
+            <h2>Edit note</h2>
+            <form data-id="{{note._id}}">
+                <label for="title">Title</label>
+                <input type=text id="title" value="{{note.title}}"></input>
+                <label for="title">Description</label>
+                <textarea rows="10" id="description" >{{note.description}}</textarea>
+                <label for="title">To do until</label>
+                <input type="text" id="datepicker">
+                <label for="title">Importance</label>
+                <div class="rating" data-rating="{{note.rating}}">
+                    <label class="rate">
+                        <input type="radio" name="starValue" value="3" />
+                    </label>
+                    <label class="rate">
+                        <input type="radio" name="starValue" value="2" />
+                    </label>
+                    <label class="active rate">
+                        <input type="radio" name="starValue" value="1" checked />
+                    </label>
+                </div>
+            </form>
+            <span class="button save"><a class="back" href="/"></a><label>save</label></a></span>
+        </div>
+    </script>
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/javascripts/utils/handlebars.js"></script>
+    
+    <script type="module" src="/javascripts/model.js"></script>  
+    <script type="module" src="/javascripts/services/rest-client.js"></script>  
+    <script type="module" src="/javascripts/controllers/note-controller.js"></script>  
+  </body>
+</html>

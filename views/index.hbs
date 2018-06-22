@@ -1,0 +1,20 @@
+
+<main class="main">
+  <div class="filters">
+    <span>Order By:</span>
+    <input type="radio" name="filter" id="date" value="date">
+    <label for="date">Date</label>
+    <input type="radio" name="filter" id="created" value="created">
+    <label for="created">Created</label>
+    <input type="radio" name="filter" id="importance" value="importance">
+    <label for="importance">Importance</label>
+  </div>
+
+  {{> list}}
+
+  <p class="style-switcher">
+    <span class="choice active">dark</span><span>|</span><span class="choice">light</span>
+  </p>
+</main>
+
+
