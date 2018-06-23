@@ -69,19 +69,71 @@ main {
     position: relative;
     top: 0; 
     width: 100%; 
-    margin-bottom: 2em;
+    margin-bottom: 3em;
 
-    input {
-        visibility:hidden;
-    }
+    input[type='radio'] {
+        display:none;
 
-    label {
+      & + label {
         cursor: pointer;
+        margin-left: 0.7em; 
+        position: relative;
+
+        &:after {
+          content: "";
+          display: inline-block;
+          position: absolute;
+          left: 0; 
+          bottom: 0; 
+          width: 100%; 
+          height: 0px; 
+          background-color: black;
+        }
+      }
+
+      &:checked + label {
+        font-weight: bold;
+
+        &:after {
+          height: 3px;
+        }
+      }
     }
 
-    input:checked + label {
-        text-decoration: underline; 
+    input[type='checkbox'] {
+      display: none;
+
+      & + label {
+        position: relative;
+        cursor: pointer;
+        margin-left: 0.7em; 
+
+        &:after {
+          content: "";
+          display: inline-block;
+          position: absolute;
+          left: 0; 
+          bottom: 0; 
+          width: 100%; 
+          height: 0px; 
+          background-color: black; 
+        }
+      }
+
+      &:checked + label {
+        font-weight: bold;
+
+        &:after {
+          height: 3px;
+        }
+      }
     }
+
+    span:not(:first-child) {
+      margin-left: 0.7em;
+    }
+
+    
   }
 
   .notes-list {
@@ -92,11 +144,19 @@ main {
       border-bottom: 1px solid black;
       padding-bottom: 1em;
 
+      &.hidden {
+        display: none; 
+      }
+
       &.done,
       &[data-done=true] {
         .item-a {
           span.indicator {
             background-color: white; 
+          }
+
+          .item-c .done:hover {
+            background-color: black; 
           }
         }
         .item-a,
@@ -104,7 +164,7 @@ main {
           opacity: 0.5;
         }
         .item-c {
-          .done-button span:not(.edit){
+          .buttons span:not(.edit){
             background-color: black;
             color: white; 
           }
@@ -191,7 +251,7 @@ main {
         align-items: end;
         justify-content: end;
 
-        .done-button {
+        .buttons {
           text-align: center; 
           
           input {
@@ -219,6 +279,10 @@ main {
 
             &.hovered {
               display: inline-block;
+            }
+
+            &:hover {
+              background-color: lightgray;
             }
           }
 

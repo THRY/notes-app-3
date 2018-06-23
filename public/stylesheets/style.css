@@ -53,26 +53,64 @@ main {
     position: relative;
     top: 0;
     width: 100%;
-    margin-bottom: 2em; }
-    main .filters input {
-      visibility: hidden; }
-    main .filters label {
-      cursor: pointer; }
-    main .filters input:checked + label {
-      text-decoration: underline; }
+    margin-bottom: 3em; }
+    main .filters input[type='radio'] {
+      display: none; }
+      main .filters input[type='radio'] + label {
+        cursor: pointer;
+        margin-left: 0.7em;
+        position: relative; }
+        main .filters input[type='radio'] + label:after {
+          content: "";
+          display: inline-block;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 0px;
+          background-color: black; }
+      main .filters input[type='radio']:checked + label {
+        font-weight: bold; }
+        main .filters input[type='radio']:checked + label:after {
+          height: 3px; }
+    main .filters input[type='checkbox'] {
+      display: none; }
+      main .filters input[type='checkbox'] + label {
+        position: relative;
+        cursor: pointer;
+        margin-left: 0.7em; }
+        main .filters input[type='checkbox'] + label:after {
+          content: "";
+          display: inline-block;
+          position: absolute;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: 0px;
+          background-color: black; }
+      main .filters input[type='checkbox']:checked + label {
+        font-weight: bold; }
+        main .filters input[type='checkbox']:checked + label:after {
+          height: 3px; }
+    main .filters span:not(:first-child) {
+      margin-left: 0.7em; }
   main .notes-list .list-item {
     display: grid;
     grid-template-columns: 10% auto 20%;
     margin-bottom: 1em;
     border-bottom: 1px solid black;
     padding-bottom: 1em; }
+    main .notes-list .list-item.hidden {
+      display: none; }
     main .notes-list .list-item.done .item-a span.indicator, main .notes-list .list-item[data-done=true] .item-a span.indicator {
       background-color: white; }
+    main .notes-list .list-item.done .item-a .item-c .done:hover, main .notes-list .list-item[data-done=true] .item-a .item-c .done:hover {
+      background-color: black; }
     main .notes-list .list-item.done .item-a,
     main .notes-list .list-item.done .item-b, main .notes-list .list-item[data-done=true] .item-a,
     main .notes-list .list-item[data-done=true] .item-b {
       opacity: 0.5; }
-    main .notes-list .list-item.done .item-c .done-button span:not(.edit), main .notes-list .list-item[data-done=true] .item-c .done-button span:not(.edit) {
+    main .notes-list .list-item.done .item-c .buttons span:not(.edit), main .notes-list .list-item[data-done=true] .item-c .buttons span:not(.edit) {
       background-color: black;
       color: white; }
     main .notes-list .list-item .item-a {
@@ -128,17 +166,17 @@ main {
       grid-template-rows: 100%;
       align-items: end;
       justify-content: end; }
-      main .notes-list .list-item .item-c .done-button {
+      main .notes-list .list-item .item-c .buttons {
         text-align: center; }
-        main .notes-list .list-item .item-c .done-button input {
+        main .notes-list .list-item .item-c .buttons input {
           display: none; }
-        main .notes-list .list-item .item-c .done-button label,
-        main .notes-list .list-item .item-c .done-button span {
+        main .notes-list .list-item .item-c .buttons label,
+        main .notes-list .list-item .item-c .buttons span {
           cursor: pointer; }
-        main .notes-list .list-item .item-c .done-button label {
+        main .notes-list .list-item .item-c .buttons label {
           display: block;
           padding: 0.2em 0.5em; }
-        main .notes-list .list-item .item-c .done-button span {
+        main .notes-list .list-item .item-c .buttons span {
           position: relative;
           display: none;
           left: 0;
@@ -146,15 +184,17 @@ main {
           border-radius: 2px;
           border: 1px solid black;
           color: black; }
-          main .notes-list .list-item .item-c .done-button span.hovered {
+          main .notes-list .list-item .item-c .buttons span.hovered {
             display: inline-block; }
-        main .notes-list .list-item .item-c .done-button span.edit {
-          display: none; }
-          main .notes-list .list-item .item-c .done-button span.edit.hovered {
-            display: inline-block; }
-          main .notes-list .list-item .item-c .done-button span.edit:hover {
+          main .notes-list .list-item .item-c .buttons span:hover {
             background-color: lightgray; }
-          main .notes-list .list-item .item-c .done-button span.edit:active {
+        main .notes-list .list-item .item-c .buttons span.edit {
+          display: none; }
+          main .notes-list .list-item .item-c .buttons span.edit.hovered {
+            display: inline-block; }
+          main .notes-list .list-item .item-c .buttons span.edit:hover {
+            background-color: lightgray; }
+          main .notes-list .list-item .item-c .buttons span.edit:active {
             background-color: darkgray; }
   main p.style-switcher {
     display: inline-block;

@@ -22,7 +22,7 @@
             <input type="radio" name="filter" id="rating" value="rating">
             <label for="rating">Importance</label>
             <span>|</span>
-            <input type="checkbox" name="filter" id="show-done" value="show-done">
+            <input type="checkbox" name="done-filter" id="show-done" value="show-done" checked>
             <label for="show-done">Show done</label>
         </div>
     
@@ -48,10 +48,10 @@
                 <div class="note-content">{{description}}</div>
             </div>
             <div class="item-c">
-                <div class="done-button">
+                <div class="buttons">
                     <span class="edit"><label for=""><a href="/note.html#{{_id}}">edit</a></label></span>
                     <input type="checkbox" id="done-input-{{@index}}" class="done-input">
-                    <span><label for="done-input-{{@index}}">done</label></span>
+                    <span class="done"><label for="done-input-{{@index}}">done</label></span>
                 </div>
             </div>        
         </div>

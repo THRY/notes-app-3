@@ -36,16 +36,29 @@ let indexController = (function() {
             notes.updateSingle(id, update, function() {
                 $closest.attr('data-done', update.done);
                 $closest.data('done', update.done);
+                updateDoneView();
             });
         })
 
         $('.list-item').on('mouseenter mouseleave', function() {
-            $(this).find('span').toggleClass('hovered'); 
+            $(this).find('.item-c span').toggleClass('hovered'); 
         });
 
         $('.list-item .item-b').click(function() {
             $(this).find('.note-content').toggleClass('open');
         });
+
+        $('#show-done').click(function() {
+            updateDoneView();
+        })
+
+        function updateDoneView() {
+            if($('#show-done').is(':checked')) {
+                $('.list-item[data-done="true"]').show();
+            } else {
+                $('.list-item[data-done="true"]').hide();
+            }
+        }
 
     }
 
