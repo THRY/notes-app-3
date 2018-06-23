@@ -18,9 +18,12 @@
             <input type="radio" name="filter" id="created" value="created" checked>
             <label for="created">Created</label>
             <input type="radio" name="filter" id="date" value="date">
-            <label for="date">Date</label>
+            <label for="date">To do until</label>
             <input type="radio" name="filter" id="rating" value="rating">
             <label for="rating">Importance</label>
+            <span>|</span>
+            <input type="checkbox" name="filter" id="show-done" value="show-done">
+            <label for="show-done">Show done</label>
         </div>
     
         <section class="notes-list">
@@ -35,12 +38,14 @@
     <script id="note-list-template" type="text/x-handlebars-template">
         {{#each notes}}
         <div class="list-item" data-id="{{_id}}" data-done="{{done}}">
-            <div class="item-a">
-                <span class="indicator" data-rating="{{rating}}"></span>
+            <div class="item-a" data-rating="{{rating}}">
+                <span class="indicator"></span>
+                <span class="indicator"></span>
+                <span class="indicator"></span>
             </div>
-            <div class="item-b">
-                <h3>{{title}}</h3>
-                <p class="note-content">{{description}}</p>
+            <div class="item-b" data-done-until="{{doneUntil}}">
+                <h3>{{title}}<span class="done-until"></span></h3>
+                <div class="note-content">{{description}}</div>
             </div>
             <div class="item-c">
                 <div class="done-button">

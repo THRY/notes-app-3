@@ -6,7 +6,7 @@ var noteController = (function() {
     const renderer = Handlebars.compile($("#note-single-template").html());
 
     let noteId = window.location.hash.substr(1); 
-    let rating = 1; 
+    let rating = 1;
 
     if(noteId) {
         note.getSingle(noteId, function(data, err) {
@@ -30,6 +30,11 @@ var noteController = (function() {
             entry.description = $('.note-editor #description').val(); 
             entry.rating = rating; 
 
+            var dateDoneUntil = $('.note-editor #datepicker').datepicker( "getDate" );
+            dateDoneUntil.setHours(0, 0, 0, 0);
+            console.log(dateDoneUntil); 
+            entry.doneUntil = dateDoneUntil.getTime(); 
+
             note.addSingle(entry, function() {
                 window.location.href = "/"; 
             });
@@ -45,7 +50,7 @@ var noteController = (function() {
 
             note.updateSingle(noteId, entry, function() {
                 console.log('pipi'); 
-                window.history.back();
+                window.location.href = "/"; 
             });
         });
 

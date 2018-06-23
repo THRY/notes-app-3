@@ -1,5 +1,6 @@
 //import { default as data } from './model.js';
 import notes from '../services/rest-client.js';
+import dateParser from '../services/date-parser.js';
 
 let indexController = (function() {
     // Add body classes depending on view
@@ -39,8 +40,33 @@ let indexController = (function() {
         })
 
         $('.list-item').on('mouseenter mouseleave', function() {
-            $(this).find('.edit').toggleClass('hovered'); 
-        })
+            $(this).find('span').toggleClass('hovered'); 
+        });
+
+        $('.list-item .item-b').click(function() {
+            $(this).find('.note-content').toggleClass('open');
+        });
+
+    }
+
+    function parseDates() {
+        $('.list-item').each(function(index) {
+            let morgen = new Date(); 
+            morgen.setHours(0,0,0,0);
+            morgen.setDate(morgen.getDate() + 1); 
+
+            let date = new Date($(this).find('.item-b').data('doneUntil'));
+ 
+            if(morgen.getTime() == date.getTime()) {
+               $(this).find('.done-until').html('tomorrow'); 
+            } else {
+                $(this).find('.done-until').html(date.toLocaleDateString('en-GB',{
+                    day: 'numeric',
+                    year: 'numeric',
+                    month: 'long'
+                })); 
+            }
+        }); 
     }
     
 
@@ -54,6 +80,7 @@ let indexController = (function() {
         notes.getAll(filter, function(data, err) {
             $(".notes-list").html(renderer({notes: data}));
             addListControllers();
+            parseDates(); 
         });
     }
     renderNotes(); 

@@ -112,8 +112,10 @@ main {
       }
 
       .item-a {
-        grid-column-start: 1;
-        grid-column-end: 1;
+        display: flex;
+        direction: rtl;
+        justify-content: flex-end;
+
         
         span.indicator {
           box-sizing: border-box;
@@ -121,48 +123,65 @@ main {
           border-radius: 50%; 
           //background-color: black;
           border: 2px solid black; 
-          width: 17px; 
-          height: 17px;
-          margin: 0.3em 0 0.5em 0.2em;
+          width: 12px; 
+          height: 12px;
+          margin: 0.3em 0.2em 0 0em;
+        }
 
-          &[data-rating="3"] {
-            background: repeating-linear-gradient(
-              45deg,
-              black,
-              black 9px,
-              black 9px,
-              black 18px
-            );
+        &[data-rating="3"] {
+          span.indicator:nth-child(1), 
+          span.indicator:nth-child(1) ~ span.indicator {
+            background-color: black; 
           }
-
-          &[data-rating="2"] {
-            background: repeating-linear-gradient(
-              45deg,
-              black,
-              black 9px,
-              white 9px,
-              white 18px
-            );
+        }
+        &[data-rating="2"] {
+          span.indicator:nth-child(2), 
+          span.indicator:nth-child(2) ~ span.indicator {
+            background-color: black; 
           }
-
-          &[data-rating="1"] {
-            background: repeating-linear-gradient(
-              45deg,
-              white,
-              white 9px,
-              white 9px,
-              white 18px
-            );
+        }
+        &[data-rating="1"] {
+          span.indicator:nth-child(3), 
+          span.indicator:nth-child(3) ~ span.indicator {
+            background-color: black; 
           }
         }
       }
       .item-b {
         grid-column-start: 2;
         grid-column-end: 2;
+        cursor: pointer;
 
         h3, p {
           margin: 0; 
         } 
+
+        h3 {
+          margin-bottom: 0.2em;
+        }
+
+        h3 span {
+          font-weight: normal; 
+          font-size: 0.7em;
+          margin-left: 0.5em; 
+        }
+
+        div.note-content {
+          display: block;
+          display: -webkit-box;
+          max-width: 100%;
+          max-height: 3.6em;
+          margin: 0 auto;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          
+          &.open {
+            max-height: inherit;
+            -webkit-line-clamp: inherit;
+          }
+        }
       }
       .item-c {
         grid-column-start: 3;
@@ -191,12 +210,16 @@ main {
           
           span {
             position: relative;
-            display: inline-block;
+            display: none;
             left: 0; 
             top: 0; 
             border-radius: 2px; 
             border: 1px solid black;
             color: black; 
+
+            &.hovered {
+              display: inline-block;
+            }
           }
 
           span.edit {
