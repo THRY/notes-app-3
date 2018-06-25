@@ -4,6 +4,7 @@ const store = require("../services/noteStore.js");
 
 function sort(type, array) {
     function fn(a, b) {
+      console.log('Type: ' + type);
       console.log(a[type]);
       if (a[type] > b[type]) {
         return -1;

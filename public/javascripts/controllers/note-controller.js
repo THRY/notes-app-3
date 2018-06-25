@@ -36,7 +36,7 @@ var noteController = (function() {
             entry.doneUntil = dateDoneUntil.getTime(); 
 
             note.addSingle(entry, function() {
-                window.location.href = "/"; 
+                window.location.reload(history.back());
             });
         });
 
@@ -48,9 +48,14 @@ var noteController = (function() {
             entry.description = $('.note-editor #description').val(); 
             entry.rating = rating;
 
+            var dateDoneUntil = $('.note-editor #datepicker').datepicker( "getDate" );
+            dateDoneUntil.setHours(0, 0, 0, 0);
+            console.log(dateDoneUntil); 
+            entry.doneUntil = dateDoneUntil.getTime(); 
+
             note.updateSingle(noteId, entry, function() {
                 console.log('pipi'); 
-                window.location.href = "/"; 
+                window.location.reload(history.back());
             });
         });
 
@@ -70,8 +75,8 @@ var noteController = (function() {
             console.log(inverseNumber);
             $('.rating label:nth-child(' + inverseNumber + ')').addClass('active');
         }
-
         console.log($('.rating').data('rating'));
+
         
 
         // Others
@@ -79,7 +84,12 @@ var noteController = (function() {
             window.history.back();
         })
 
-        $( "#datepicker" ).datepicker();
+        $( "#datepicker" ).datepicker({dateFormat: 'd M yy'});
+
+        $(document).ready(function() {
+            let date = new Date($( "#datepicker" ).data('done-until'));
+            $( "#datepicker" ).datepicker('setDate', date);
+        })
     }
 }()); 
 

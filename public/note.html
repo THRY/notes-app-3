@@ -8,8 +8,8 @@
   </head>
   <body>
     <header>
-        <a href="/"><h1 class="title">Daily Notes</h1></a>
-        <a class="back" href="/"><span class="button"><label>back</label></span></a>
+        <h1 class="title">Daily Notes</h1>
+        <span class="back button"><label>back</label></span>
     </header>
     <div class="note-editor">
         
@@ -23,7 +23,7 @@
                 <label for="title">Description</label>
                 <textarea rows="10" id="description" >{{note.description}}</textarea>
                 <label for="title">To do until</label>
-                <input type="text" id="datepicker">
+                <input type="text" id="datepicker" data-done-until="{{note.doneUntil}}">
                 <label for="title">Importance</label>
                 <div class="rating" data-rating="{{note.rating}}">
                     <label class="rate">

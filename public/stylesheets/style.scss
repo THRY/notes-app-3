@@ -220,10 +220,10 @@ main {
           margin-bottom: 0.2em;
         }
 
-        h3 span {
+        p.done-until {
           font-weight: normal; 
           font-size: 0.7em;
-          margin-left: 0.5em; 
+          margin: 0.8em 0 0.7em 0; 
         }
 
         div.note-content {
@@ -247,11 +247,13 @@ main {
         grid-column-start: 3;
         grid-column-end: 3;
         display: grid;
-        grid-template-rows: 100%;
+        grid-template-rows: 50% 50%;
         align-items: end;
         justify-content: end;
 
         .buttons {
+          grid-row-start: 2;
+          grid-row-end: 2;
           text-align: center; 
           
           input {

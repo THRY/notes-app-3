@@ -17,8 +17,8 @@
             <span>Order By:</span>
             <input type="radio" name="filter" id="created" value="created" checked>
             <label for="created">Created</label>
-            <input type="radio" name="filter" id="date" value="date">
-            <label for="date">To do until</label>
+            <input type="radio" name="filter" id="doneUntil" value="doneUntil">
+            <label for="doneUntil">To do until</label>
             <input type="radio" name="filter" id="rating" value="rating">
             <label for="rating">Importance</label>
             <span>|</span>
@@ -31,7 +31,7 @@
         </section>
     
         <p class="style-switcher">
-            <span class="choice active">dark</span><span>|</span><span class="choice">light</span>
+            <span class="choice">dark</span><span>|</span><span class="choice active">light</span>
         </p>
     </main>
 
@@ -44,7 +44,8 @@
                 <span class="indicator"></span>
             </div>
             <div class="item-b" data-done-until="{{doneUntil}}">
-                <h3>{{title}}<span class="done-until"></span></h3>
+                <h3>{{title}}</h3>
+                <p class="done-until"></p>
                 <div class="note-content">{{description}}</div>
             </div>
             <div class="item-c">

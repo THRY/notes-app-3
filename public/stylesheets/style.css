@@ -142,10 +142,10 @@ main {
         margin: 0; }
       main .notes-list .list-item .item-b h3 {
         margin-bottom: 0.2em; }
-      main .notes-list .list-item .item-b h3 span {
+      main .notes-list .list-item .item-b p.done-until {
         font-weight: normal;
         font-size: 0.7em;
-        margin-left: 0.5em; }
+        margin: 0.8em 0 0.7em 0; }
       main .notes-list .list-item .item-b div.note-content {
         display: block;
         display: -webkit-box;
@@ -163,10 +163,12 @@ main {
       grid-column-start: 3;
       grid-column-end: 3;
       display: grid;
-      grid-template-rows: 100%;
+      grid-template-rows: 50% 50%;
       align-items: end;
       justify-content: end; }
       main .notes-list .list-item .item-c .buttons {
+        grid-row-start: 2;
+        grid-row-end: 2;
         text-align: center; }
         main .notes-list .list-item .item-c .buttons input {
           display: none; }

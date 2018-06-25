@@ -3,14 +3,12 @@ import notes from '../services/rest-client.js';
 import dateParser from '../services/date-parser.js';
 
 let indexController = (function() {
-    // Add body classes depending on view
-    let path = window.location.pathname;
-    $('body').addClass(path.split("/")[1]); 
 
     let url = window.location.href;
     let filter = ''; 
+    
     if(url.split('?')[1]) {
-        filter = url.split('?')[1].split('sortby=')[1];
+        filter = url.split('?')[1].split('sort=')[1];
         console.log(url);
         $('.filters #' + filter).attr('checked', 'checked');
     }
@@ -21,8 +19,31 @@ let indexController = (function() {
     });
 
     $('.filters input[name=filter]').change(function() {
-        window.location.href = '?sortby=' + $(this).val();
+        let filter = $(this).val(); 
+        history.pushState({}, "", "?sort=" + filter);
+        renderNotes(filter); 
     });
+
+    function sort(array, filterType) {
+        let type = filterType; 
+        
+        if(!type) {
+            type = 'created'; 
+        }
+
+        function fn(a, b) {    
+            console.log('Type: ' + type);
+            console.log(a[type]);
+            if (a[type] > b[type]) {
+            return -1;
+            }
+            if (a[type] < b[type]) {
+            return 1;
+            }
+            return 0;
+        }
+        return array.sort(fn);
+    }    
 
     function addListControllers() {
         // Done
@@ -37,6 +58,7 @@ let indexController = (function() {
                 $closest.attr('data-done', update.done);
                 $closest.data('done', update.done);
                 updateDoneView();
+                updateDoneDate(update.done, $closest);
             });
         })
 
@@ -50,19 +72,32 @@ let indexController = (function() {
 
         $('#show-done').click(function() {
             updateDoneView();
-        })
-
-        function updateDoneView() {
-            if($('#show-done').is(':checked')) {
-                $('.list-item[data-done="true"]').show();
-            } else {
-                $('.list-item[data-done="true"]').hide();
-            }
-        }
-
+        });
     }
 
-    function parseDates() {
+    function updateDoneDate(isDone, $parent) {
+        if(isDone) {
+            let date = new Date(); 
+            $parent.find('.done-until').html('Done: ' + date.toLocaleDateString('en-GB',{
+                day: 'numeric',
+                year: 'numeric',
+                month: 'long'
+                })
+            );
+        } else {
+            parseDoneDates();
+        }
+    }
+
+    function updateDoneView() {
+        if($('#show-done').is(':checked')) {
+            $('.list-item[data-done="true"]').show();
+        } else {
+            $('.list-item[data-done="true"]').hide();
+        }
+    }
+
+    function parseDoneDates() {
         $('.list-item').each(function(index) {
             let morgen = new Date(); 
             morgen.setHours(0,0,0,0);
@@ -73,7 +108,7 @@ let indexController = (function() {
             if(morgen.getTime() == date.getTime()) {
                $(this).find('.done-until').html('tomorrow'); 
             } else {
-                $(this).find('.done-until').html(date.toLocaleDateString('en-GB',{
+                $(this).find('.done-until').html('To do: ' + date.toLocaleDateString('en-GB',{
                     day: 'numeric',
                     year: 'numeric',
                     month: 'long'
@@ -86,17 +121,15 @@ let indexController = (function() {
     // Render all notes
     const renderer = Handlebars.compile($("#note-list-template").html());
 
-    function renderNotes() {
-        if(filter != '') {
-            filter = '?sortby=' + filter; 
-        }
-        notes.getAll(filter, function(data, err) {
-            $(".notes-list").html(renderer({notes: data}));
+    function renderNotes(filter) {
+        notes.getAll(function(data, err) {
+            let sortedData = sort(data, filter);
+            $(".notes-list").html(renderer({notes: sortedData}));
             addListControllers();
-            parseDates(); 
+            parseDoneDates(); 
         });
     }
-    renderNotes(); 
+    renderNotes(filter); 
 
 }()); 
 

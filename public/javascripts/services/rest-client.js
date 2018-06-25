@@ -19,10 +19,10 @@ let rest = (function() {
         });
     }
 
-    function getAllNotes(filterParam, callback) {
+    function getAllNotes(callback) {
         $.ajax({
             type: "GET",
-            url: "/notes" + filterParam,
+            url: "/notes",
             data: {},
             success: callback
         });
