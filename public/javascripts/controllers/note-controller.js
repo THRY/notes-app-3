@@ -55,7 +55,7 @@ var noteController = (function() {
 
             note.updateSingle(noteId, entry, function() {
                 console.log('pipi'); 
-                window.location.reload(history.back());
+                window.history.back();
             });
         });
 
@@ -80,7 +80,7 @@ var noteController = (function() {
         
 
         // Others
-        $('.back').click(function() {
+        $('.back, .title').click(function() {
             window.history.back();
         })
 

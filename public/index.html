@@ -22,7 +22,7 @@
             <input type="radio" name="filter" id="rating" value="rating">
             <label for="rating">Importance</label>
             <span>|</span>
-            <input type="checkbox" name="done-filter" id="show-done" value="show-done" checked>
+            <input type="checkbox" name="done-filter" id="show-done" value="show-done">
             <label for="show-done">Show done</label>
         </div>
     
@@ -37,7 +37,7 @@
 
     <script id="note-list-template" type="text/x-handlebars-template">
         {{#each notes}}
-        <div class="list-item" data-id="{{_id}}" data-done="{{done}}">
+        <div class="list-item" data-id="{{_id}}" data-done="{{done}}" data-done-date="{{doneDate}}">
             <div class="item-a" data-rating="{{rating}}">
                 <span class="indicator"></span>
                 <span class="indicator"></span>
@@ -50,7 +50,7 @@
             </div>
             <div class="item-c">
                 <div class="buttons">
-                    <span class="edit"><label for=""><a href="/note.html#{{_id}}">edit</a></label></span>
+                    <span class="edit"><a href="/note.html#{{_id}}"><label for="">edit</label></a></span>
                     <input type="checkbox" id="done-input-{{@index}}" class="done-input">
                     <span class="done"><label for="done-input-{{@index}}">done</label></span>
                 </div>

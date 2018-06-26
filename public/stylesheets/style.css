@@ -40,7 +40,8 @@ header {
     display: inline-block;
     position: relative;
     margin: 0;
-    top: 3px; }
+    top: 3px;
+    cursor: pointer; }
 
 main {
   width: 100%;

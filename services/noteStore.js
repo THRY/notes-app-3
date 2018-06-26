@@ -10,6 +10,7 @@ function Note(title, description, rating, doneUntil)
     this.doneUntil = doneUntil;
     this.created = date.getTime();
     this.done = false;
+    this.doneDate = '';
     this.state = "OK";
 }
 

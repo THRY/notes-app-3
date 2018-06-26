@@ -9,21 +9,28 @@ let indexController = (function() {
     
     if(url.split('?')[1]) {
         filter = url.split('?')[1].split('sort=')[1];
-        console.log(url);
         $('.filters #' + filter).attr('checked', 'checked');
     }
+
+    $(document).ready(function() {
+        if(getCookie('showDone') == 'true') {
+            $('#show-done').attr('checked','checked');
+        }
+    });
     
     // Style switcher
     $('.style-switcher .choice').click(function() {
         $('.style-switcher .choice').toggleClass('active');
     });
 
+    // Filter radio input
     $('.filters input[name=filter]').change(function() {
         let filter = $(this).val(); 
         history.pushState({}, "", "?sort=" + filter);
         renderNotes(filter); 
     });
 
+    // Sorty by filter value
     function sort(array, filterType) {
         let type = filterType; 
         
@@ -32,8 +39,6 @@ let indexController = (function() {
         }
 
         function fn(a, b) {    
-            console.log('Type: ' + type);
-            console.log(a[type]);
             if (a[type] > b[type]) {
             return -1;
             }
@@ -45,20 +50,97 @@ let indexController = (function() {
         return array.sort(fn);
     }    
 
+    // Set Done Date to now
+    function updateDoneDate(isDone, $parent) {
+        if(isDone) {
+            let date = new Date(); 
+            $parent.find('.done-until').html('Done: ' + date.toLocaleDateString('en-GB',{
+                day: 'numeric',
+                year: 'numeric',
+                month: 'long'
+                })
+            );
+        } else {
+            parseToDoDates();
+        }
+    }
+
+
+    function showHideDone() {
+        if(getCookie('showDone') == 'true') {
+            $('.list-item[data-done="true"]').show();
+        } else {
+            $('.list-item[data-done="true"]').hide();
+        }
+    }
+
+    function parseToDoDates() {
+        $('.list-item').each(function(index) {
+            let $listItem = $(this); 
+            let morgen = new Date(); 
+            morgen.setHours(0,0,0,0);
+            morgen.setDate(morgen.getDate() + 1); 
+
+            let date = new Date($(this).find('.item-b').data('doneUntil'));
+ 
+            if(morgen.getTime() == date.getTime()) {
+               $(this).find('.done-until').html('tomorrow'); 
+            } if($(this).data('done')) {
+                updateDoneDate(true, $listItem); 
+            } else {
+                $(this).find('.done-until').html('To do: ' + date.toLocaleDateString('en-GB',{
+                    day: 'numeric',
+                    year: 'numeric',
+                    month: 'long'
+                })); 
+            }
+        }); 
+    }
+
+    function setCookie(cname, cvalue, exdays) {
+        var d = new Date();
+        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+        var expires = "expires="+d.toUTCString();
+        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+    }
+
+    function getCookie(cname) {
+        var name = cname + "=";
+        var ca = document.cookie.split(';');
+        for(var i = 0; i < ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
+    
+    // Add controllers after updating DOM with handlebars
     function addListControllers() {
         // Done
         $('.done-input').click(function() {
             let $closest = $(this).closest('.list-item');
             let id = $closest.data('id');
-
+        
             let update = {}
             update.done = ($closest.data('done') == true ? false : true); 
 
+            let now = new Date(); 
+            now.setHours(0,0,0,0);
+            update.doneDate = now.getTime(); 
+
             notes.updateSingle(id, update, function() {
+                /*
                 $closest.attr('data-done', update.done);
                 $closest.data('done', update.done);
-                updateDoneView();
+                showHideDone();
                 updateDoneDate(update.done, $closest);
+                */
+                renderNotes(filter); 
             });
         })
 
@@ -71,52 +153,10 @@ let indexController = (function() {
         });
 
         $('#show-done').click(function() {
-            updateDoneView();
+            setCookie('showDone', $(this).is(":checked"), 1); 
+            showHideDone();
         });
     }
-
-    function updateDoneDate(isDone, $parent) {
-        if(isDone) {
-            let date = new Date(); 
-            $parent.find('.done-until').html('Done: ' + date.toLocaleDateString('en-GB',{
-                day: 'numeric',
-                year: 'numeric',
-                month: 'long'
-                })
-            );
-        } else {
-            parseDoneDates();
-        }
-    }
-
-    function updateDoneView() {
-        if($('#show-done').is(':checked')) {
-            $('.list-item[data-done="true"]').show();
-        } else {
-            $('.list-item[data-done="true"]').hide();
-        }
-    }
-
-    function parseDoneDates() {
-        $('.list-item').each(function(index) {
-            let morgen = new Date(); 
-            morgen.setHours(0,0,0,0);
-            morgen.setDate(morgen.getDate() + 1); 
-
-            let date = new Date($(this).find('.item-b').data('doneUntil'));
- 
-            if(morgen.getTime() == date.getTime()) {
-               $(this).find('.done-until').html('tomorrow'); 
-            } else {
-                $(this).find('.done-until').html('To do: ' + date.toLocaleDateString('en-GB',{
-                    day: 'numeric',
-                    year: 'numeric',
-                    month: 'long'
-                })); 
-            }
-        }); 
-    }
-    
 
     // Render all notes
     const renderer = Handlebars.compile($("#note-list-template").html());
@@ -126,7 +166,8 @@ let indexController = (function() {
             let sortedData = sort(data, filter);
             $(".notes-list").html(renderer({notes: sortedData}));
             addListControllers();
-            parseDoneDates(); 
+            parseToDoDates(); 
+            showHideDone();
         });
     }
     renderNotes(filter); 
