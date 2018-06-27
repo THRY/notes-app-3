@@ -4,7 +4,6 @@ import { cookie } from '../services/cookie-client.js';
 
 let indexController = (function() {
 
-
     let filter = (function() {
         let url = window.location.href;
         let filter = '';
@@ -52,7 +51,7 @@ let indexController = (function() {
     // Render Notes on filter radio input
     $('.filters input[name=filter]').change(function() {
         filter.set($(this).val()); 
-        history.pushState({}, "", "?sort=" + filter.get());
+        history.pushState({page: 1}, "", "?sort=" + filter.get());
         renderNotes(filter.get(), false); 
 
         $('.filters input[name=filter] + label span').removeClass('inversed');

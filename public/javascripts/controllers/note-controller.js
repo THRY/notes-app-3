@@ -73,7 +73,7 @@ var noteController = (function() {
                 $('label span.error').html('  Please give your note a title');
             } else {
                 note.addSingle(entry, function() {
-                    window.location.reload(history.back());
+                    window.location = document.referrer;
                 });
             }
         });
@@ -82,14 +82,14 @@ var noteController = (function() {
         $('.note-editor .edit.save').click(function() {
             let entry = getNoteFields();
             note.updateSingle(noteId, entry, function() {
-                window.history.back();
+                window.location = document.referrer;
             });
         });
 
         // Delete entry
         $('.note-editor .button.delete').click(function() {
             note.deleteSingle(noteId, function() {
-                window.history.back();
+                window.location = document.referrer;
             });
         });
 
