@@ -182,7 +182,7 @@ let indexController = (function() {
             showHideDone();
         });
     }
-    renderNotes(filter); 
+    renderNotes(filter.get()); 
 
 }()); 
 
