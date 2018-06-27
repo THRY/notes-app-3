@@ -31,11 +31,19 @@ let indexController = (function() {
         cookie.set('darkStyle', $('body').hasClass('dark'), 1);
     });
 
-    // Filter radio input
+    // Render Notes on filter radio input
+    let clickCount = 0; 
     $('.filters input[name=filter]').change(function() {
+        console.log('change');
         let filter = $(this).val(); 
         history.pushState({}, "", "?sort=" + filter);
         renderNotes(filter); 
+        $('.filters input[name=filter] + label span').removeClass('inversed');
+        clickCount = 0; 
+    });
+
+    $('.filters input[name=filter] + label').click(function() {
+        $(this).children('span').toggleClass('inversed');    
     });
 
     // Sorty by filter value
@@ -73,7 +81,7 @@ let indexController = (function() {
         }
     }
 
-
+    // Hide done notes
     function showHideDone() {
         if(cookie.get('showDone') == 'true') {
             $('.list-item[data-done="true"]').show();
@@ -82,6 +90,7 @@ let indexController = (function() {
         }
     }
 
+    // Parse Date info to readable format
     function parseToDoDates() {
         $('.list-item').each(function(index) {
             let $listItem = $(this); 
@@ -107,7 +116,6 @@ let indexController = (function() {
     
     // Add controllers after updating DOM with handlebars
     function addListControllers() {
-        // Done
         $('.done-input').click(function() {
             let $closest = $(this).closest('.list-item');
             let id = $closest.data('id');
@@ -120,12 +128,6 @@ let indexController = (function() {
             update.doneDate = now.getTime(); 
 
             notes.updateSingle(id, update, function() {
-                /*
-                $closest.attr('data-done', update.done);
-                $closest.data('done', update.done);
-                showHideDone();
-                updateDoneDate(update.done, $closest);
-                */
                 renderNotes(filter); 
             });
         })

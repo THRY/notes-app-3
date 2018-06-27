@@ -18,7 +18,7 @@
         <div class="container">
             <h2>Edit note</h2>
             <form data-id="{{note._id}}">
-                <label for="title">Title</label>
+                <label for="title">Title<span class="error"></span></label>
                 <input type=text id="title" value="{{note.title}}"></input>
                 <label for="title">Description</label>
                 <textarea rows="10" id="description" >{{note.description}}</textarea>

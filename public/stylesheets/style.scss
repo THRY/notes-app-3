@@ -30,7 +30,7 @@ body {
         input[type='checkbox'],
         input[type='radio'] {  
           & + label {
-            &:after {
+            &:before {
               background-color: white;
             }
           }
@@ -109,7 +109,7 @@ body {
         .rating {
           label {
             &.rate:after {
-              border: 1px solid white; 
+              border: 2px solid white; 
             }
           }
   
@@ -162,6 +162,7 @@ header {
   align-items: flex-start;
   width: 100%; 
   height: 150px;
+  padding-top: 3em;
 
   span.button {
     top: 15px; 
@@ -195,10 +196,20 @@ main {
 
       & + label {
         cursor: pointer;
-        margin-left: 0.7em; 
+        margin-left: 1.5em; 
         position: relative;
+        
+        span {
+          position: absolute;
+          display: none;
+          margin-left: 2px;
 
-        &:after {
+          &.inversed {
+            transform: rotate(180deg); 
+          }
+        }
+
+        &:before {
           content: "";
           display: inline-block;
           position: absolute;
@@ -213,8 +224,12 @@ main {
       &:checked + label {
         font-weight: bold;
 
-        &:after {
+        &:before {
           height: 3px;
+        }
+
+        span {
+          display: inline;
         }
       }
     }
@@ -227,7 +242,7 @@ main {
         cursor: pointer;
         margin-left: 0.7em; 
 
-        &:after {
+        &:before {
           content: "";
           display: inline-block;
           position: absolute;
@@ -242,14 +257,14 @@ main {
       &:checked + label {
         font-weight: bold;
 
-        &:after {
+        &:before {
           height: 3px;
         }
       }
     }
 
     span:not(:first-child) {
-      margin-left: 0.7em;
+      margin-left: 1.5em;
     }
 
     
@@ -473,6 +488,11 @@ main {
       label {
           display: block;
           padding-bottom: 0.5em;
+
+          span.error {
+            font-style: italic;
+            color: rgb(185, 81, 50)
+          }
       }
 
       input,
@@ -514,7 +534,7 @@ main {
             width: 20px;
             height: 20px;
             border-radius: 50%; 
-            border: 1px solid black; 
+            border: 2px solid black; 
             margin-right: 0.2em; 
           }
         }

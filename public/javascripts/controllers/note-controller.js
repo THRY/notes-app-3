@@ -3,6 +3,8 @@ import { cookie } from '../services/cookie-client.js';
 
 var noteController = (function() {
 
+    let noteId = window.location.hash.substr(1); 
+
     $(document).ready(function() {
         if(cookie.get('darkStyle') == 'true') {
             $('body').addClass('dark');
@@ -12,12 +14,29 @@ var noteController = (function() {
     // Render all notes
     const renderer = Handlebars.compile($("#note-single-template").html());
 
-    let noteId = window.location.hash.substr(1); 
-    let rating = 1;
+    // Globals
+    
 
+    let rating = (function() {
+        let rating = 0; 
+
+        function set(value) {
+            rating = value; 
+        }
+
+        function get() {
+            return rating; 
+        }
+
+        return {
+            get: get,
+            set: set
+        }
+    }())
+
+    // Edit or new Note
     if(noteId) {
         note.getSingle(noteId, function(data, err) {
-            console.log(data);
             $(".note-editor").html(renderer({note: data}));
             $('.save').addClass('edit'); 
             $('.button.delete').show();
@@ -29,43 +48,45 @@ var noteController = (function() {
         addListControllers(); 
     }
 
+    // Get data from fields
+    function getNoteFields() {
+        let entry = {}
+        entry.title = $('.note-editor #title').val(); 
+        entry.description = $('.note-editor #description').val(); 
+        entry.rating = rating.get();
+
+        // Parse Date
+        let dateDoneUntil = $('.note-editor #datepicker').datepicker( "getDate" );
+        dateDoneUntil.setHours(0, 0, 0, 0);
+        entry.doneUntil = dateDoneUntil.getTime(); 
+
+        return entry; 
+    }
+
+    // Add controlers after DOM Elements have been added
     function addListControllers() {
          // Save entry
         $('.note-editor .first.save').click(function() {
-            console.log("FIRST SAVE");
-            let entry = {}
-            entry.title = $('.note-editor #title').val(); 
-            entry.description = $('.note-editor #description').val(); 
-            entry.rating = rating; 
-
-            let dateDoneUntil = $('.note-editor #datepicker').datepicker( "getDate" );
-            dateDoneUntil.setHours(0, 0, 0, 0);
-            console.log(dateDoneUntil); 
-            entry.doneUntil = dateDoneUntil.getTime(); 
-
-            note.addSingle(entry, function() {
-                window.location.reload(history.back());
-            });
+            let entry = getNoteFields();
+            
+            if(entry.title == '') {
+                $('label span.error').html('  Please give your note a title');
+            } else {
+                note.addSingle(entry, function() {
+                    window.location.reload(history.back());
+                });
+            }
         });
 
         // Update entry
         $('.note-editor .edit.save').click(function() {
-            let entry = {}
-            entry.title = $('.note-editor #title').val(); 
-            entry.description = $('.note-editor #description').val(); 
-            entry.rating = rating;
-
-            let dateDoneUntil = $('.note-editor #datepicker').datepicker( "getDate" );
-            dateDoneUntil.setHours(0, 0, 0, 0);
-            console.log(dateDoneUntil); 
-            entry.doneUntil = dateDoneUntil.getTime(); 
-
+            let entry = getNoteFields();
             note.updateSingle(noteId, entry, function() {
                 window.history.back();
             });
         });
 
-        // delete entry
+        // Delete entry
         $('.note-editor .button.delete').click(function() {
             note.deleteSingle(noteId, function() {
                 window.history.back();
@@ -79,13 +100,12 @@ var noteController = (function() {
           });
         
         $('.rating input[name=starValue]').change(function() {
-            console.log('changed');
-            rating = $(this).val(); 
+            rating.set($(this).val());
         }); 
         
+        // Set Rating view
         if(noteId) {
             let inverseNumber = 3 - (parseInt($('.rating').data('rating') - 1)); 
-            console.log(inverseNumber);
             $('.rating label:nth-child(' + inverseNumber + ')').addClass('active');
         }        
 
@@ -94,12 +114,10 @@ var noteController = (function() {
             window.history.back();
         })
 
+        // Init Datepicker
         $( "#datepicker" ).datepicker({dateFormat: 'd M yy'});
-
-        $(document).ready(function() {
-            let date = new Date($( "#datepicker" ).data('done-until'));
-            $( "#datepicker" ).datepicker('setDate', date);
-        })
+        let date = new Date($( "#datepicker" ).data('done-until'));
+        $( "#datepicker" ).datepicker('setDate', date);
     }
 }()); 
 
