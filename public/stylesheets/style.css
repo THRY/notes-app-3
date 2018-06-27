@@ -329,7 +329,8 @@ main {
             height: 20px;
             border-radius: 50%;
             border: 2px solid black;
-            margin-right: 0.2em; }
+            margin-right: 0.2em;
+            cursor: pointer; }
         .note-editor .container form .rating > label.active:after,
         .note-editor .container form .rating > label.active ~ label:after,
         .note-editor .container form .rating > label:hover:after,
