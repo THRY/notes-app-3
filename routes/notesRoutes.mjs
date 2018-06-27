@@ -5,7 +5,6 @@ import { store } from '../services/noteStore';
 
 
 router.get("/notes", function(req, res, next) {
-  console.log('getting all');
   store.all(function(err, notes) {
     res.json(notes);
   })

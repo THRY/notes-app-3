@@ -51,7 +51,6 @@ let indexController = (function() {
 
     // Render Notes on filter radio input
     $('.filters input[name=filter]').change(function() {
-        console.log('change');
         filter.set($(this).val()); 
         history.pushState({}, "", "?sort=" + filter.get());
         renderNotes(filter.get(), false); 

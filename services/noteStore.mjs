@@ -48,7 +48,6 @@ export class NoteStore {
     }
 
     all(callback) {
-        console.log("get all notes");
         this.db.find({}, function (err, docs) {
             callback( err, docs);
         });
