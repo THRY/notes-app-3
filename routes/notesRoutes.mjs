@@ -1,10 +1,11 @@
-var express = require('express');
-var router = express.Router();
+import express from 'express';
+const router = express.Router();
 
-const store = require("../services/noteStore.mjs");
+import { store } from '../services/noteStore';
 
 
 router.get("/notes", function(req, res, next) {
+  console.log('getting all');
   store.all(function(err, notes) {
     res.json(notes);
   })
@@ -18,11 +19,11 @@ router.post("/notes", function(req, res) {
 
 router.post("/notes/:id", function(req, res) {
   if(req.query.delete == 'true') {
-    store.delete(req.params.id, function(err, note) {
+    store.remove(req.params.id, function(err, note) {
       res.json(note); 
     });
   } else {
-    store.put(req.params.id, req.body, function(err, note) {
+    store.update(req.params.id, req.body, function(err, note) {
       res.json(note); 
     });
   }
@@ -35,4 +36,5 @@ router.get("/notes/:id", function(req, res) {
   })
 });
 
-module.exports = router;
+
+export const notesRoutes = router;

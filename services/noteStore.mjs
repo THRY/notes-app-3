@@ -1,53 +1,58 @@
-const Datastore = require('nedb');
-const db = new Datastore({ filename: './data/notes.db', autoload: true });
+import Datastore from 'nedb';
 
-function Note(title, description, rating, doneUntil)
-{
-    let date = new Date(); 
-    this.title = title;
-    this.description = description;
-    this.rating = rating;
-    this.doneUntil = doneUntil;
-    this.created = date.getTime();
-    this.done = false;
-    this.doneDate = '';
-    this.state = "OK";
+export class Note { 
+    constructor(title, description, rating, doneUntil) {
+        let date = new Date(); 
+
+        this.title = title;
+        this.description = description;
+        this.rating = rating;
+        this.doneUntil = doneUntil;
+        this.created = date.getTime();
+        this.done = false;
+        this.doneDate = '';
+        this.state = "OK";
+    }
 }
 
+export class NoteStore {
+    constructor(db) {
+        this.db = db || new Datastore({filename: '../data/notes.db', autoload: true});
+    }
 
-function publicAdd(data, callback)
-{
-    let note = new Note(data.title, data.description, data.rating, data.doneUntil);
-    db.insert(note, function(err, newDoc){
-        if(callback){
-            callback(err, newDoc);
-        }
-    });
+    add(data, callback) {
+        let note = new Note(data.title, data.description, data.rating, data.doneUntil);
+        this.db.insert(note, function(err, newDoc){
+            if(callback){
+                callback(err, newDoc);
+            }
+        });
+    }
+
+    remove(id, callback) {
+        this.db.remove({_id: id}, {}, function (err, numRemoved) {
+            callback(err, numRemoved);
+        });
+    }
+
+    get(id, callback) {   
+        this.db.findOne({ _id: id }, function (err, doc) {
+            callback( err, doc);
+        });
+    }
+
+    update(id, update, callback) {   
+        this.db.update({ _id: id }, { $set: update }, {}, function (err, doc) {
+            callback( err, doc);
+        });
+    }
+
+    all(callback) {
+        console.log("get all notes");
+        this.db.find({}, function (err, docs) {
+            callback( err, docs);
+        });
+    }
 }
 
-function publicRemove(id, callback) {
-    db.remove({_id: id}, {}, function (err, numRemoved) {
-        callback(err, numRemoved);
-    });
-}
-
-function publicGet(id, callback)
-{   db.findOne({ _id: id }, function (err, doc) {
-        callback( err, doc);
-    });
-}
-
-function publicUpdate(id, update, callback)
-{   db.update({ _id: id }, { $set: update }, {}, function (err, doc) {
-        callback( err, doc);
-    });
-}
-
-function publicAll(callback)
-{
-    db.find({}, function (err, docs) {
-        callback( err, docs);
-    });
-}
-
-module.exports = {put: publicUpdate, add : publicAdd, delete : publicRemove, get : publicGet, all : publicAll};
+export const store = new NoteStore();

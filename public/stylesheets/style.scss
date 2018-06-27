@@ -7,17 +7,120 @@ body {
   max-width: 650px;
   margin: 0 auto;
   padding: 15px;
+  color: #1e1e1e;
 
   &.dark {
-    background-color: black; 
+    background-color: #1e1e1e; 
     color: white !important;
 
-    .list-item {
-      border-bottom: 1px solid white !important; 
+    a {
+      color: white;
     }
 
     span.button {
       border: 1px solid white;
+    
+      &:hover {
+        color: #1e1e1e;
+      }
+    }
+
+    .main {
+      .filters {
+        input[type='checkbox'],
+        input[type='radio'] {  
+          & + label {
+            &:after {
+              background-color: white;
+            }
+          }
+        }
+      }
+
+      p.style-switcher {
+        span.choice {
+          &:after {
+            background-color: white !important; 
+          }
+        }
+      }
+    }
+
+    .notes-list {
+      .list-item {
+        border-bottom: 1px solid white; 
+  
+        .item-a {
+          span.indicator {
+            border: 2px solid white; 
+          }
+          
+          &[data-rating="3"] {
+            span.indicator:nth-child(1), 
+            span.indicator:nth-child(1) ~ span.indicator {
+              background-color: white; 
+            }
+          }
+  
+          &[data-rating="2"] {
+            span.indicator:nth-child(2), 
+            span.indicator:nth-child(2) ~ span.indicator {
+              background-color: white; 
+            }
+          }
+  
+          &[data-rating="1"] {
+            span.indicator:nth-child(3), 
+            span.indicator:nth-child(3) ~ span.indicator {
+              background-color: white; 
+            }
+          }
+        }
+  
+        .item-c {
+          span.edit {
+            &:hover * {
+              color:#1e1e1e !important;
+            }
+          }
+        }
+  
+        &[data-done=true] {
+          .item-c {
+            .button.done {
+              background-color: white !important;
+              color: black !important; 
+            }
+          }
+        }
+      }
+    }
+    
+
+    .note-editor {
+      form {
+        input[type=text],
+        textarea {
+          background-color: #322f2f;
+          border: 1px solid white;
+          color: white;
+        }
+
+        .rating {
+          label {
+            &.rate:after {
+              border: 1px solid white; 
+            }
+          }
+  
+          &>label.active:after,
+          &>label.active ~ label:after,
+          &>label:hover:after,
+          &>label:hover ~ label:after {
+            background-color: white; 
+          }
+        }
+      }
     }
   }
 }
@@ -166,23 +269,18 @@ main {
 
       &.done,
       &[data-done=true] {
-        .item-a {
-          span.indicator {
-            background-color: white; 
-          }
-
-          .item-c .done:hover {
-            background-color: black; 
-          }
-        }
         .item-a,
         .item-b {
-          opacity: 0.5;
+          opacity: 0.3;
         }
+
         .item-c {
-          .buttons span:not(.edit){
+          .buttons span.done {
             background-color: black;
             color: white; 
+          }
+          &.done:hover {
+            background-color: black; 
           }
         }
       }
@@ -291,9 +389,6 @@ main {
             display: none;
             left: 0; 
             top: 0; 
-            border-radius: 2px; 
-            border: 1px solid black;
-            color: black; 
 
             &.hovered {
               display: inline-block;
@@ -331,11 +426,24 @@ main {
       right: 0; 
       margin: 0;
 
-      span {
+      span.choice {
+          position: relative;
           cursor: pointer; 
 
+          &:after {
+            content: "";
+            position: absolute;
+            bottom: -2px; 
+            left: 0;
+            width: 100%; 
+            background-color: black; 
+          }
+
           &.active {
-              text-decoration: underline;
+            font-weight: bold;
+            &:after {
+              height: 3px;
+            }
           }
       }
 
@@ -361,6 +469,7 @@ main {
     padding-bottom: 2em;
 
     form {
+      margin-bottom: 2em;
       label {
           display: block;
           padding-bottom: 0.5em;

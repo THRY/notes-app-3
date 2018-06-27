@@ -1,6 +1,13 @@
 import note from '../services/rest-client.js';
+import { cookie } from '../services/cookie-client.js';
 
 var noteController = (function() {
+
+    $(document).ready(function() {
+        if(cookie.get('darkStyle') == 'true') {
+            $('body').addClass('dark');
+        }
+    });
 
     // Render all notes
     const renderer = Handlebars.compile($("#note-single-template").html());
@@ -80,10 +87,7 @@ var noteController = (function() {
             let inverseNumber = 3 - (parseInt($('.rating').data('rating') - 1)); 
             console.log(inverseNumber);
             $('.rating label:nth-child(' + inverseNumber + ')').addClass('active');
-        }
-        console.log($('.rating').data('rating'));
-
-        
+        }        
 
         // Others
         $('.back, .title').click(function() {

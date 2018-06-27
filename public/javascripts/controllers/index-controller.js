@@ -1,6 +1,6 @@
 //import { default as data } from './model.js';
 import notes from '../services/rest-client.js';
-import dateParser from '../services/date-parser.js';
+import { cookie } from '../services/cookie-client.js';
 
 let indexController = (function() {
 
@@ -13,8 +13,14 @@ let indexController = (function() {
     }
 
     $(document).ready(function() {
-        if(getCookie('showDone') == 'true') {
+        if(cookie.get('showDone') == 'true') {
             $('#show-done').attr('checked','checked');
+        }
+
+        if(cookie.get('darkStyle') == 'true') {
+            $('body').addClass('dark');
+            $('.style-switcher .choice.dark').addClass('active');
+            $('.style-switcher .choice.light').removeClass('active');
         }
     });
     
@@ -22,6 +28,7 @@ let indexController = (function() {
     $('.style-switcher .choice').click(function() {
         $('.style-switcher .choice').toggleClass('active');
         $('body').toggleClass('dark');
+        cookie.set('darkStyle', $('body').hasClass('dark'), 1);
     });
 
     // Filter radio input
@@ -68,7 +75,7 @@ let indexController = (function() {
 
 
     function showHideDone() {
-        if(getCookie('showDone') == 'true') {
+        if(cookie.get('showDone') == 'true') {
             $('.list-item[data-done="true"]').show();
         } else {
             $('.list-item[data-done="true"]').hide();
@@ -96,28 +103,6 @@ let indexController = (function() {
                 })); 
             }
         }); 
-    }
-
-    function setCookie(cname, cvalue, exdays) {
-        var d = new Date();
-        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
-        var expires = "expires="+d.toUTCString();
-        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
-    }
-
-    function getCookie(cname) {
-        var name = cname + "=";
-        var ca = document.cookie.split(';');
-        for(var i = 0; i < ca.length; i++) {
-            var c = ca[i];
-            while (c.charAt(0) == ' ') {
-                c = c.substring(1);
-            }
-            if (c.indexOf(name) == 0) {
-                return c.substring(name.length, c.length);
-            }
-        }
-        return "";
     }
     
     // Add controllers after updating DOM with handlebars
@@ -154,7 +139,7 @@ let indexController = (function() {
         });
 
         $('#show-done').click(function() {
-            setCookie('showDone', $(this).is(":checked"), 1); 
+            cookie.set('showDone', $(this).is(":checked"), 1); 
             showHideDone();
         });
     }

@@ -6,14 +6,52 @@ body {
   flex-wrap: wrap;
   max-width: 650px;
   margin: 0 auto;
-  padding: 15px; }
+  padding: 15px;
+  color: #1e1e1e; }
   body.dark {
-    background-color: black;
+    background-color: #1e1e1e;
     color: white !important; }
-    body.dark .list-item {
-      border-bottom: 1px solid white !important; }
+    body.dark a {
+      color: white; }
     body.dark span.button {
       border: 1px solid white; }
+      body.dark span.button:hover {
+        color: #1e1e1e; }
+    body.dark .main .filters input[type='checkbox'] + label:after,
+    body.dark .main .filters input[type='radio'] + label:after {
+      background-color: white; }
+    body.dark .main p.style-switcher span.choice:after {
+      background-color: white !important; }
+    body.dark .notes-list .list-item {
+      border-bottom: 1px solid white; }
+      body.dark .notes-list .list-item .item-a span.indicator {
+        border: 2px solid white; }
+      body.dark .notes-list .list-item .item-a[data-rating="3"] span.indicator:nth-child(1),
+      body.dark .notes-list .list-item .item-a[data-rating="3"] span.indicator:nth-child(1) ~ span.indicator {
+        background-color: white; }
+      body.dark .notes-list .list-item .item-a[data-rating="2"] span.indicator:nth-child(2),
+      body.dark .notes-list .list-item .item-a[data-rating="2"] span.indicator:nth-child(2) ~ span.indicator {
+        background-color: white; }
+      body.dark .notes-list .list-item .item-a[data-rating="1"] span.indicator:nth-child(3),
+      body.dark .notes-list .list-item .item-a[data-rating="1"] span.indicator:nth-child(3) ~ span.indicator {
+        background-color: white; }
+      body.dark .notes-list .list-item .item-c span.edit:hover * {
+        color: #1e1e1e !important; }
+      body.dark .notes-list .list-item[data-done=true] .item-c .button.done {
+        background-color: white !important;
+        color: black !important; }
+    body.dark .note-editor form input[type=text],
+    body.dark .note-editor form textarea {
+      background-color: #322f2f;
+      border: 1px solid white;
+      color: white; }
+    body.dark .note-editor form .rating label.rate:after {
+      border: 1px solid white; }
+    body.dark .note-editor form .rating > label.active:after,
+    body.dark .note-editor form .rating > label.active ~ label:after,
+    body.dark .note-editor form .rating > label:hover:after,
+    body.dark .note-editor form .rating > label:hover ~ label:after {
+      background-color: white; }
 
 *:focus {
   outline: none; }
@@ -112,17 +150,15 @@ main {
     padding-bottom: 1em; }
     main .notes-list .list-item.hidden {
       display: none; }
-    main .notes-list .list-item.done .item-a span.indicator, main .notes-list .list-item[data-done=true] .item-a span.indicator {
-      background-color: white; }
-    main .notes-list .list-item.done .item-a .item-c .done:hover, main .notes-list .list-item[data-done=true] .item-a .item-c .done:hover {
-      background-color: black; }
     main .notes-list .list-item.done .item-a,
     main .notes-list .list-item.done .item-b, main .notes-list .list-item[data-done=true] .item-a,
     main .notes-list .list-item[data-done=true] .item-b {
-      opacity: 0.5; }
-    main .notes-list .list-item.done .item-c .buttons span:not(.edit), main .notes-list .list-item[data-done=true] .item-c .buttons span:not(.edit) {
+      opacity: 0.3; }
+    main .notes-list .list-item.done .item-c .buttons span.done, main .notes-list .list-item[data-done=true] .item-c .buttons span.done {
       background-color: black;
       color: white; }
+    main .notes-list .list-item.done .item-c.done:hover, main .notes-list .list-item[data-done=true] .item-c.done:hover {
+      background-color: black; }
     main .notes-list .list-item .item-a {
       display: flex;
       direction: rtl;
@@ -192,10 +228,7 @@ main {
           position: relative;
           display: none;
           left: 0;
-          top: 0;
-          border-radius: 2px;
-          border: 1px solid black;
-          color: black; }
+          top: 0; }
           main .notes-list .list-item .item-c .buttons span.hovered {
             display: inline-block; }
           main .notes-list .list-item .item-c .buttons span:hover {
@@ -214,10 +247,20 @@ main {
     bottom: 0;
     right: 0;
     margin: 0; }
-    main p.style-switcher span {
+    main p.style-switcher span.choice {
+      position: relative;
       cursor: pointer; }
-      main p.style-switcher span.active {
-        text-decoration: underline; }
+      main p.style-switcher span.choice:after {
+        content: "";
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 100%;
+        background-color: black; }
+      main p.style-switcher span.choice.active {
+        font-weight: bold; }
+        main p.style-switcher span.choice.active:after {
+          height: 3px; }
     main p.style-switcher span:nth-child(2) {
       margin: 0 0.4em; }
 
@@ -234,51 +277,53 @@ main {
     margin: 0 auto;
     position: relative;
     padding-bottom: 2em; }
-    .note-editor .container form label {
-      display: block;
-      padding-bottom: 0.5em; }
-    .note-editor .container form input,
-    .note-editor .container form textarea {
-      box-sizing: border-box;
-      resize: none;
-      width: 100%;
-      border: 1px solid black;
-      margin-bottom: 1em;
-      padding: 0.5em;
-      border-radius: 3px;
-      font-size: 1em; }
-    .note-editor .container form input {
-      height: 3em;
-      font-size: 1em; }
-    .note-editor .container form .rating {
-      position: relative;
-      display: flex;
-      justify-content: flex-end;
-      direction: rtl; }
-      .note-editor .container form .rating label {
+    .note-editor .container form {
+      margin-bottom: 2em; }
+      .note-editor .container form label {
+        display: block;
+        padding-bottom: 0.5em; }
+      .note-editor .container form input,
+      .note-editor .container form textarea {
+        box-sizing: border-box;
+        resize: none;
+        width: 100%;
+        border: 1px solid black;
+        margin-bottom: 1em;
+        padding: 0.5em;
+        border-radius: 3px;
+        font-size: 1em; }
+      .note-editor .container form input {
+        height: 3em;
+        font-size: 1em; }
+      .note-editor .container form .rating {
         position: relative;
-        display: inline-block;
-        width: 20px;
-        height: 20px;
-        margin-right: 0.7em; }
-        .note-editor .container form .rating label.rate:after {
-          content: "";
-          position: absolute;
+        display: flex;
+        justify-content: flex-end;
+        direction: rtl; }
+        .note-editor .container form .rating label {
+          position: relative;
           display: inline-block;
-          top: 0;
-          left: 0;
           width: 20px;
           height: 20px;
-          border-radius: 50%;
-          border: 1px solid black;
-          margin-right: 0.2em; }
-      .note-editor .container form .rating > label.active:after,
-      .note-editor .container form .rating > label.active ~ label:after,
-      .note-editor .container form .rating > label:hover:after,
-      .note-editor .container form .rating > label:hover ~ label:after {
-        background-color: black; }
-      .note-editor .container form .rating input {
-        display: none; }
+          margin-right: 0.7em; }
+          .note-editor .container form .rating label.rate:after {
+            content: "";
+            position: absolute;
+            display: inline-block;
+            top: 0;
+            left: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid black;
+            margin-right: 0.2em; }
+        .note-editor .container form .rating > label.active:after,
+        .note-editor .container form .rating > label.active ~ label:after,
+        .note-editor .container form .rating > label:hover:after,
+        .note-editor .container form .rating > label:hover ~ label:after {
+          background-color: black; }
+        .note-editor .container form .rating input {
+          display: none; }
     .note-editor .container .buttons {
       display: flex;
       justify-content: flex-end; }

@@ -1,11 +1,13 @@
 {
-  "name": "notes-app-2",
+  "name": "notes-app-3",
   "version": "0.0.0",
   "private": true,
+  "main": "app.mjs",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node -r @std/esm app.mjs"
   },
   "dependencies": {
+    "@std/esm": "^0.26.0",
     "browser-sync": "^2.24.4",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
