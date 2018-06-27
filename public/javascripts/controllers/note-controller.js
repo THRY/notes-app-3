@@ -40,6 +40,7 @@ var noteController = (function() {
             $(".note-editor").html(renderer({note: data}));
             $('.save').addClass('edit'); 
             $('.button.delete').show();
+            rating.set($('.rating').data('rating'));
             addListControllers(); 
         }) 
     } else {
@@ -53,7 +54,6 @@ var noteController = (function() {
         let entry = {}
         entry.title = $('.note-editor #title').val(); 
         entry.description = $('.note-editor #description').val(); 
-        entry.rating = rating.get();
 
         // Parse Date
         let dateDoneUntil = $('.note-editor #datepicker').datepicker( "getDate" );
@@ -68,6 +68,7 @@ var noteController = (function() {
          // Save entry
         $('.note-editor .first.save').click(function() {
             let entry = getNoteFields();
+            entry.rating = rating.get();
             
             if(entry.title == '') {
                 $('label span.error').html('  Please give your note a title');
@@ -81,6 +82,8 @@ var noteController = (function() {
         // Update entry
         $('.note-editor .edit.save').click(function() {
             let entry = getNoteFields();
+            entry.rating = rating.get(); 
+
             note.updateSingle(noteId, entry, function() {
                 window.location = document.referrer;
             });

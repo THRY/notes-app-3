@@ -6,24 +6,32 @@ let indexController = (function() {
 
     let filter = (function() {
         let url = window.location.href;
-        let filter = '';
+        let f = {
+            filter: '',
+            isReversed: false   
+        };
 
         if(url.split('?')[1]) {
-            filter = url.split('?')[1].split('sort=')[1];
-            $('.filters #' + filter).attr('checked', 'checked');
+            f.filter = url.split('?')[1].split('sort=')[1];
+            $('.filters #' + f.filter).attr('checked', 'checked');
         }
 
         function set(value) {
-            filter = value; 
+            f.filter = value; 
+        }
+
+        function setInversed(value) {
+            f.isReversed = value;
         }
 
         function get() {
-            return filter
+            return f;
         }
 
         return {
             get: get, 
-            set: set
+            set: set,
+            setInversed: setInversed
         }
     }());
     
@@ -51,8 +59,9 @@ let indexController = (function() {
     // Render Notes on filter radio input
     $('.filters input[name=filter]').change(function() {
         filter.set($(this).val()); 
-        history.pushState({page: 1}, "", "?sort=" + filter.get());
-        renderNotes(filter.get(), false); 
+        filter.setInversed(false); 
+        history.pushState({page: 1}, "", "?sort=" + filter.get().filter);
+        renderNotes(filter.get()); 
 
         $('.filters input[name=filter] + label span').removeClass('inversed');
     });
@@ -61,7 +70,8 @@ let indexController = (function() {
         $(this).children('span').toggleClass('inversed');    
 
         let isReversed =  $(this).children('span').hasClass('inversed'); 
-        renderNotes(filter.get(), isReversed);
+        filter.setInversed(isReversed);
+        renderNotes(filter.get());
     });
 
     // Sorty by filter value
@@ -152,7 +162,7 @@ let indexController = (function() {
             update.doneDate = now.getTime(); 
 
             notes.updateSingle(id, update, function() {
-                renderNotes(filter); 
+                renderNotes(filter.get()); 
             });
         })
 
@@ -173,9 +183,9 @@ let indexController = (function() {
     // Render all notes
     const renderer = Handlebars.compile($("#note-list-template").html());
 
-    function renderNotes(filter, isReversed) {
+    function renderNotes(f) {
         notes.getAll(function(data, err) {
-            let sortedData = sort(data, filter, isReversed);
+            let sortedData = sort(data, f.filter, f.isReversed);
             $(".notes-list").html(renderer({notes: sortedData}));
             addListControllers();
             parseToDoDates(); 
