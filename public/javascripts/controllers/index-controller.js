@@ -4,13 +4,31 @@ import { cookie } from '../services/cookie-client.js';
 
 let indexController = (function() {
 
-    let url = window.location.href;
-    let filter = ''; 
+
+    let filter = (function() {
+        let url = window.location.href;
+        let filter = '';
+
+        if(url.split('?')[1]) {
+            filter = url.split('?')[1].split('sort=')[1];
+            $('.filters #' + filter).attr('checked', 'checked');
+        }
+
+        function set(value) {
+            filter = value; 
+        }
+
+        function get() {
+            return filter
+        }
+
+        return {
+            get: get, 
+            set: set
+        }
+    }());
     
-    if(url.split('?')[1]) {
-        filter = url.split('?')[1].split('sort=')[1];
-        $('.filters #' + filter).attr('checked', 'checked');
-    }
+    
 
     $(document).ready(function() {
         if(cookie.get('showDone') == 'true') {
@@ -23,7 +41,7 @@ let indexController = (function() {
             $('.style-switcher .choice.light').removeClass('active');
         }
     });
-    
+
     // Style switcher
     $('.style-switcher .choice').click(function() {
         $('.style-switcher .choice').toggleClass('active');
@@ -32,22 +50,24 @@ let indexController = (function() {
     });
 
     // Render Notes on filter radio input
-    let clickCount = 0; 
     $('.filters input[name=filter]').change(function() {
         console.log('change');
-        let filter = $(this).val(); 
-        history.pushState({}, "", "?sort=" + filter);
-        renderNotes(filter); 
+        filter.set($(this).val()); 
+        history.pushState({}, "", "?sort=" + filter.get());
+        renderNotes(filter.get(), false); 
+
         $('.filters input[name=filter] + label span').removeClass('inversed');
-        clickCount = 0; 
     });
 
     $('.filters input[name=filter] + label').click(function() {
         $(this).children('span').toggleClass('inversed');    
+
+        let isReversed =  $(this).children('span').hasClass('inversed'); 
+        renderNotes(filter.get(), isReversed);
     });
 
     // Sorty by filter value
-    function sort(array, filterType) {
+    function sort(array, filterType, isReversed) {
         let type = filterType; 
         
         if(!type) {
@@ -63,7 +83,13 @@ let indexController = (function() {
             }
             return 0;
         }
-        return array.sort(fn);
+        let sorted = array.sort(fn);
+
+        if(isReversed) {
+            return sorted.reverse(); 
+        } else {
+            return sorted;
+        }
     }    
 
     // Set Done Date to now
@@ -149,9 +175,9 @@ let indexController = (function() {
     // Render all notes
     const renderer = Handlebars.compile($("#note-list-template").html());
 
-    function renderNotes(filter) {
+    function renderNotes(filter, isReversed) {
         notes.getAll(function(data, err) {
-            let sortedData = sort(data, filter);
+            let sortedData = sort(data, filter, isReversed);
             $(".notes-list").html(renderer({notes: sortedData}));
             addListControllers();
             parseToDoDates(); 
