@@ -6,6 +6,8 @@ var logger = require('morgan');
 
 var app = express();
 
+//import noteRoutes from './routes/notesRoutes.mjs';
+
 // view engine setup
 //app.engine('hbs', hbs({extname: 'hbs', defaultLayout: 'layout', layoutDir: __dirname + '/views', partialsDir: __dirname + '/views/partials'}));
 
@@ -17,7 +19,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(require('./routes/notesRoutes.js'));
+app.use(require('./routes/notesRoutes.mjs'));
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

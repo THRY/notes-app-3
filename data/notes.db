@@ -1,5 +1,2 @@
-{"title":"Test","description":"Papipapo","rating":"2","doneUntil":"1528668000000","created":1530041586975,"done":"true","doneDate":"1529964000000","state":"OK","_id":"1GsV761H3IZaMpNN"}
-{"title":"Lorem ipsum dolor","description":"Das muss ich unbedingt noch machen. Bald.","rating":"1","doneUntil":"1530136800000","created":1529957667719,"done":"false","doneDate":"1529964000000","state":"OK","_id":"2u0l3ZUp3ftzKGNh"}
-{"title":"dgsgsabcdefg","description":"dgsdfgsdfg","rating":"2","doneUntil":"1532037600000","created":1530041615623,"done":"false","doneDate":"1529964000000","state":"OK","_id":"D5qb2t03IZMNh6B3"}
-{"title":"fsdfasdfasdf","description":"","rating":"2","doneUntil":"1530223200000","created":1529957773973,"done":"false","doneDate":"1529964000000","state":"OK","_id":"XHOcxwSEzK7L5uob"}
-{"title":"Test","description":"Papipapo","rating":"2","doneUntil":"1528668000000","created":1530041586975,"done":"false","doneDate":"1529964000000","state":"OK","_id":"1GsV761H3IZaMpNN"}
+{"title":"Lorem ipsum dolor","description":"Das muss ich unbedingt noch machen. Bald.","rating":"1","doneUntil":"1530136800000","created":1529957667719,"done":"true","doneDate":"1530050400000","state":"OK","_id":"2u0l3ZUp3ftzKGNh"}
+{"title":"Babedibubedi","description":"","rating":"3","doneUntil":"1530223200000","created":1529957773973,"done":"false","doneDate":"1529964000000","state":"OK","_id":"XHOcxwSEzK7L5uob"}

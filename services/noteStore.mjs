@@ -26,8 +26,8 @@ function publicAdd(data, callback)
 }
 
 function publicRemove(id, callback) {
-    db.update({_id: id}, {$set: {"state": "DELETED"}}, {returnUpdatedDocs:true}, function (err, numDocs, doc) {
-        callback(err, doc);
+    db.remove({_id: id}, {}, function (err, numRemoved) {
+        callback(err, numRemoved);
     });
 }
 

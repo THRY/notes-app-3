@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const store = require("../services/noteStore.js");
+
+const store = require("../services/noteStore.mjs");
 
 
 router.get("/notes", function(req, res, next) {
@@ -16,9 +17,16 @@ router.post("/notes", function(req, res) {
 });
 
 router.post("/notes/:id", function(req, res) {
-  store.put(req.params.id, req.body, function(err, note) {
-    res.json(note); 
-  });
+  if(req.query.delete == 'true') {
+    store.delete(req.params.id, function(err, note) {
+      res.json(note); 
+    });
+  } else {
+    store.put(req.params.id, req.body, function(err, note) {
+      res.json(note); 
+    });
+  }
+  
 });
 
 router.get("/notes/:id", function(req, res) {

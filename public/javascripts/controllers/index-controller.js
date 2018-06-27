@@ -21,6 +21,7 @@ let indexController = (function() {
     // Style switcher
     $('.style-switcher .choice').click(function() {
         $('.style-switcher .choice').toggleClass('active');
+        $('body').toggleClass('dark');
     });
 
     // Filter radio input

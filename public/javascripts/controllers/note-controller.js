@@ -13,6 +13,7 @@ var noteController = (function() {
             console.log(data);
             $(".note-editor").html(renderer({note: data}));
             $('.save').addClass('edit'); 
+            $('.button.delete').show();
             addListControllers(); 
         }) 
     } else {
@@ -25,12 +26,12 @@ var noteController = (function() {
          // Save entry
         $('.note-editor .first.save').click(function() {
             console.log("FIRST SAVE");
-            var entry = {}
+            let entry = {}
             entry.title = $('.note-editor #title').val(); 
             entry.description = $('.note-editor #description').val(); 
             entry.rating = rating; 
 
-            var dateDoneUntil = $('.note-editor #datepicker').datepicker( "getDate" );
+            let dateDoneUntil = $('.note-editor #datepicker').datepicker( "getDate" );
             dateDoneUntil.setHours(0, 0, 0, 0);
             console.log(dateDoneUntil); 
             entry.doneUntil = dateDoneUntil.getTime(); 
@@ -42,19 +43,24 @@ var noteController = (function() {
 
         // Update entry
         $('.note-editor .edit.save').click(function() {
-            console.log("EDIT SAVE");
-            var entry = {}
+            let entry = {}
             entry.title = $('.note-editor #title').val(); 
             entry.description = $('.note-editor #description').val(); 
             entry.rating = rating;
 
-            var dateDoneUntil = $('.note-editor #datepicker').datepicker( "getDate" );
+            let dateDoneUntil = $('.note-editor #datepicker').datepicker( "getDate" );
             dateDoneUntil.setHours(0, 0, 0, 0);
             console.log(dateDoneUntil); 
             entry.doneUntil = dateDoneUntil.getTime(); 
 
             note.updateSingle(noteId, entry, function() {
-                console.log('pipi'); 
+                window.history.back();
+            });
+        });
+
+        // delete entry
+        $('.note-editor .button.delete').click(function() {
+            note.deleteSingle(noteId, function() {
                 window.history.back();
             });
         });

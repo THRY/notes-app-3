@@ -19,6 +19,15 @@ let rest = (function() {
         });
     }
 
+    function deleteSingleNote(id, callback) {
+        $.ajax({
+            type: "POST",
+            url: "/notes/" + id + '?delete=true',
+            data: {},
+            success: callback
+        });
+    }
+
     function getAllNotes(callback) {
         $.ajax({
             type: "GET",
@@ -40,6 +49,7 @@ let rest = (function() {
     return {
         addSingle: addNewNote,
         updateSingle: updateSingleNote,
+        deleteSingle: deleteSingleNote,
         getAll: getAllNotes,
         getSingle: getSingleNote
     }
