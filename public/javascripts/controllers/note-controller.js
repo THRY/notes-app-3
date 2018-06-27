@@ -18,7 +18,7 @@ var noteController = (function() {
     
 
     let rating = (function() {
-        let rating = 0; 
+        let rating = 1; 
 
         function set(value) {
             rating = value; 
