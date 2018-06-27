@@ -183,6 +183,7 @@ let indexController = (function() {
         });
     }
     renderNotes(filter.get()); 
+    //abgabe
 
 }()); 
 
